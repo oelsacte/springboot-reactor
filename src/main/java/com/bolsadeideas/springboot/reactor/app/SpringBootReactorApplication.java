@@ -1,5 +1,8 @@
 package com.bolsadeideas.springboot.reactor.app;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.management.RuntimeErrorException;
 
 import org.slf4j.Logger;
@@ -23,9 +26,11 @@ public class SpringBootReactorApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
-		Flux<String> nombres = Flux.just("Andres Guzman", "Pedro Fulano", "María Fulana", "Diego Sultano",
+		
+		List<String> lstUsuarios = Arrays.asList("Andres Guzman", "Pedro Fulano", "María Fulana", "Diego Sultano",
 				"Juan Mengano", "Bruce Lee", "Bruce Willis");
+
+		Flux<String> nombres = Flux.fromIterable(lstUsuarios);
 		
 		Flux<Usuario> usuarios = nombres.map(nombre -> new Usuario(nombre.split(" ")[0].toUpperCase(), nombre.split(" ")[1].toUpperCase()))
 				.filter(usuario -> usuario.getNombre().equalsIgnoreCase("bruce")).doOnNext(usuario -> {
